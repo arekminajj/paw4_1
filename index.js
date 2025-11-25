@@ -1,7 +1,9 @@
 'use strict';
 
+const { categories, funnyJoke, lameJoke } = require('./jokes');
 const express = require('express');
 const app = express();
+var isPrime = require('is-prime')
 
 app.get('/math/circle/:r', (req, res) => {
   
@@ -50,6 +52,22 @@ app.get('/math/power/:base/:exponent', (req, res) => {
   return res.json({ result });
 });
 
+app.get('/math/isprime/:n', (req, res) => {
+  
+  const n = Number(req.params.n);
+
+  if (Number.isNaN(n)) {
+    return res.status(400).json({ error: "invalid input." });
+  }
+
+  const isp = isPrime(n);
+
+  const result = {"number": n,"isPrime": isp}
+  res.json(result);
+  
+
+  
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
